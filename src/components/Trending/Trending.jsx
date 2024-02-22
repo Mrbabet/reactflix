@@ -61,7 +61,7 @@ const Trending = () => {
         )}
         <TabPanels>
           {!loading && !error && (
-            <TabPanel className="test">
+            <TabPanel>
               <Flex overflowX={"scroll"} gap={"16px"}>
                 {data.map((movie) => {
                   return (

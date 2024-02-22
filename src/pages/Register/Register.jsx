@@ -27,11 +27,11 @@ import {
   CheckCircleIcon,
 } from "@chakra-ui/icons";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import {useAuthState} from 'react-firebase-hooks/auth'
-import { auth, logout, registerWithEmailAndPassword } from "../../config/firebase";
+import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
-  const [user, loading, error] = useAuthState(auth);
+  const {signUp} = useAuth()
+  const {userSignOut} = useAuth()
   const [showPassword, setShowPassword] = useState(false);
   const [showMatchPassword, setShowMatchPassword] = useState(false);
 
@@ -106,8 +106,8 @@ const Register = () => {
     }
 
     try {
-      registerWithEmailAndPassword(userEmail, password);
-      logout
+     await signUp(userEmail,password)
+     
       setUserEmail("");
       setPassword("");
       setMatchPassword("");

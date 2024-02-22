@@ -1,9 +1,8 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import {  useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthProvider";
-import { Link, useNavigate, Form } from "react-router-dom";
+import { Link, useNavigate,} from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
-import axios from "../../api/axios";
-const LOGIN_URL = "/tmdb-auth";
 
 import {
   FormControl,
@@ -22,10 +21,10 @@ import {
 } from "@chakra-ui/react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { logInWithEmailAndPassword } from "../../config/firebase";
+
 
 const Login = () => {
-  const { setAuth } = useContext(AuthContext);
+  const { signIn } = useAuth()
   const navigate = useNavigate();
 
   const [userEmail, setUserEmail] = useState("");
@@ -41,12 +40,10 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      logInWithEmailAndPassword( userEmail, password)
-      setAuth({ email: userEmail, password});
+      await signIn(userEmail,password)
       setUserEmail("");
       setPassword("");
-      const { approvalUrl } = await response.json();
-      navigate(approvalUrl);
+      navigate('/');
     } catch (error) {
       if (!error?.response) {
         setErrMsg("No Server Response");

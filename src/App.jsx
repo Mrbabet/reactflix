@@ -23,11 +23,13 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Layout />}>
-          <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
           <Route path="/movie" element={<Movies />} />
           <Route path="/movie/:movieId" element={<MoviesDetails />} />
+          
           {/* Protected Routes */}
           <Route element={<RequireAuth />}>
+          
             <Route path="/bookmarked" element={<Bookmarked />} />
             <Route path="/tv-series" element={<TVSeries />} />
           </Route>
