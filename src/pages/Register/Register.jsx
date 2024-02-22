@@ -27,12 +27,11 @@ import {
   CheckCircleIcon,
 } from "@chakra-ui/icons";
 import { Link as ChakraLink } from "@chakra-ui/react";
-import styled from "@emotion/styled";
-
-import axios from "../../api/axios";
-const REGISTER_URL = "/register";
+import {useAuthState} from 'react-firebase-hooks/auth'
+import { auth, logout, registerWithEmailAndPassword } from "../../config/firebase";
 
 const Register = () => {
+  const [user, loading, error] = useAuthState(auth);
   const [showPassword, setShowPassword] = useState(false);
   const [showMatchPassword, setShowMatchPassword] = useState(false);
 
@@ -94,6 +93,7 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -106,19 +106,11 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post(
-        REGISTER_URL,
-        { email: userEmail, password },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
+      registerWithEmailAndPassword(userEmail, password);
+      logout
       setUserEmail("");
       setPassword("");
       setMatchPassword("");
-      console.log(JSON.stringify(response?.data));
-      console.log(JSON.stringify(response?.accessToken));
       navigate("/welcome", { replace: true });
     } catch (error) {
       console.log(error);

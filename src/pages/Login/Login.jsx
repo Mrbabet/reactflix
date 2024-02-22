@@ -22,10 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
+import { logInWithEmailAndPassword } from "../../config/firebase";
 
 const Login = () => {
   const { setAuth } = useContext(AuthContext);
@@ -44,16 +41,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        LOGIN_URL,
-        { email: userEmail, password },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      const accessToken = response?.data?.accessToken;
-      setAuth({ email: userEmail, password, accessToken });
+      logInWithEmailAndPassword( userEmail, password)
+      setAuth({ email: userEmail, password});
       setUserEmail("");
       setPassword("");
       const { approvalUrl } = await response.json();
