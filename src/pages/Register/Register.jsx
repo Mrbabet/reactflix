@@ -17,10 +17,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
-import { IconButton, useColorMode } from "@chakra-ui/react";
 import {
-  SunIcon,
-  MoonIcon,
   ViewIcon,
   ViewOffIcon,
   WarningIcon,
@@ -30,8 +27,6 @@ import { Link as ChakraLink } from "@chakra-ui/react";
 import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
-  const {signUp} = useAuth()
-  const {userSignOut} = useAuth()
   const [showPassword, setShowPassword] = useState(false);
   const [showMatchPassword, setShowMatchPassword] = useState(false);
 
@@ -93,7 +88,6 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -106,8 +100,6 @@ const Register = () => {
     }
 
     try {
-     await signUp(userEmail,password)
-     
       setUserEmail("");
       setPassword("");
       setMatchPassword("");
@@ -123,18 +115,10 @@ const Register = () => {
       }
     }
   };
-  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <>
       <Box w="100vw" h="100vh" display="grid" placeItems="center">
-        <IconButton
-          aria-label="Toggle theme"
-          position={"absolute"}
-          top={0}
-          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-          onClick={toggleColorMode}
-        />
         <Flex gap="60px" flexDirection="column" margin="24px">
           <Icon width="33" height="27" xmlns="http://www.w3.org/2000/svg">
             <path

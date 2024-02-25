@@ -6,6 +6,9 @@ import {
   ListIcon,
   ListItem,
   Image,
+  Avatar,
+  useColorMode,
+  IconButton,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { Link as ChakraLink } from "@chakra-ui/react";
@@ -16,11 +19,13 @@ import {
   IconTv,
   IconLogo,
 } from "../../config/customIcons";
+import { SunIcon, MoonIcon } from "@chakra-ui/icons";
 import { useLocation } from "react-router-dom";
-import AvatarImg from "../../assets/image-avatar.png";
+import { auth } from "../../config/firebase";
 
 const Navigation = () => {
   const location = useLocation();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <>
@@ -75,9 +80,16 @@ const Navigation = () => {
             </ListItem>
           </List>
         </Flex>
-        <Box>
-          <Image w="24px" src={AvatarImg} alt="avatar image" />
-        </Box>
+        <Flex gap={"8px"}>
+          <IconButton
+            aria-label="Toggle theme"
+            top={0}
+            icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+            onClick={toggleColorMode}
+            size={"xs"}
+          />
+          <Avatar bg={"#FC4747"} name={auth.currentUser?.email} size={"xs"} />
+        </Flex>
       </Flex>
     </>
   );

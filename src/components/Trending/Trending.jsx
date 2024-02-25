@@ -10,6 +10,7 @@ import {
   TabPanel,
   Spinner,
   Box,
+  Grid,
 } from "@chakra-ui/react";
 
 import axios from "axios";
@@ -25,9 +26,8 @@ const Trending = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://api.themoviedb.org/3/trending/all/${selectedTab}`,
+          `https://api.themoviedb.org/3/trending/all/${selectedTab}?language=en-US&page=1`,
           {
-            params: { language: "en-US" },
             headers: {
               accept: "application/json",
               Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN_AUTH}`,
@@ -62,7 +62,11 @@ const Trending = () => {
         <TabPanels>
           {!loading && !error && (
             <TabPanel>
-              <Flex overflowX={"scroll"} gap={"16px"}>
+              <Grid
+                overflowX={"scroll"}
+                templateColumns="repeat(20, 220px)"
+                gap={"16px"}
+              >
                 {data.map((movie) => {
                   return (
                     movie.release_date &&
@@ -79,12 +83,17 @@ const Trending = () => {
                     )
                   );
                 })}
-              </Flex>
+              </Grid>
             </TabPanel>
           )}
           {!loading && !error && (
             <TabPanel>
-              <Flex overflowX={"scroll"} gap={"16px"} pb={"24px"}>
+              <Grid
+                overflowX={"scroll"}
+                templateColumns="repeat(20, 220px)"
+                gap={"16px"}
+                pb={"24px"}
+              >
                 {data.map((movie) => {
                   return (
                     movie.release_date &&
@@ -101,7 +110,7 @@ const Trending = () => {
                     )
                   );
                 })}
-              </Flex>
+              </Grid>
             </TabPanel>
           )}
         </TabPanels>

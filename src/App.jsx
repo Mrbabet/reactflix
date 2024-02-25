@@ -23,9 +23,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Layout />}>
+          <Route path="/" element={<Home />} />
           {/* Protected Routes */}
           <Route element={<RequireAuth />}>
-            <Route path="/" element={<Home />} />
             <Route path="/movie" element={<Movies />} />
             <Route path="/movie/:movieId" element={<MoviesDetails />} />
 

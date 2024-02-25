@@ -1,8 +1,7 @@
-import {  useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import AuthContext from "../../context/AuthProvider";
-import { Link, useNavigate,} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
-
 
 import {
   FormControl,
@@ -22,9 +21,7 @@ import {
 import { Link as ChakraLink } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-
 const Login = () => {
-  const { signIn } = useAuth()
   const navigate = useNavigate();
 
   const [userEmail, setUserEmail] = useState("");
@@ -40,10 +37,9 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      await signIn(userEmail,password)
       setUserEmail("");
       setPassword("");
-      navigate('/');
+      navigate("/");
     } catch (error) {
       if (!error?.response) {
         setErrMsg("No Server Response");
