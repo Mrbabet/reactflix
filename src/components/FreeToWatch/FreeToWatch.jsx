@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import MovieCard from "../MovieCard/MovieCard";
 import {
-  Flex,
+  Grid,
   Tabs,
   Tab,
   TabList,
@@ -25,7 +25,7 @@ const FreeToWatch = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_watch_monetization_types=free,`,
+          `https://api.themoviedb.org/3/discover/${selectedTab}`,
           {
             headers: {
               accept: "application/json",
@@ -33,6 +33,7 @@ const FreeToWatch = () => {
             },
           }
         );
+        console.log(response.data);
         setData(response.data.results);
         setLoading(false);
       } catch (error) {
@@ -61,44 +62,48 @@ const FreeToWatch = () => {
         <TabPanels>
           {!loading && !error && (
             <TabPanel className="test">
-              <Flex overflowX={"scroll"} gap={"16px"}>
+              <Grid
+                templateColumns="repeat(20, 220px)"
+                overflowX={"scroll"}
+                gap={"16px"}
+              >
                 {data.map((movie) => {
                   return (
-                    movie.release_date &&
-                    movie.title && (
-                      <MovieCard
-                        year={movie.release_date}
-                        mediaType={movie.media_type}
-                        rating={movie.vote_average}
-                        imageUrl={movie.poster_path}
-                        title={movie.title}
-                        key={movie.id}
-                      />
-                    )
+                    <MovieCard
+                      id={movie.id}
+                      year={movie.release_date}
+                      mediaType={movie.media_type}
+                      rating={movie.vote_average}
+                      imageUrl={movie.poster_path}
+                      title={movie.title || movie.name}
+                      key={movie.id}
+                    />
                   );
                 })}
-              </Flex>
+              </Grid>
             </TabPanel>
           )}
           {!loading && !error && (
             <TabPanel>
-              <Flex overflowX={"scroll"} gap={"16px"} pb={"24px"}>
+              <Grid
+                templateColumns="repeat(20, 220px)"
+                overflowX={"scroll"}
+                gap={"16px"}
+                pb={"24px"}
+              >
                 {data.map((movie) => {
                   return (
-                    movie.release_date &&
-                    movie.title && (
-                      <MovieCard
-                        year={movie.release_date}
-                        mediaType={movie.media_type}
-                        rating={movie.vote_average}
-                        imageUrl={movie.poster_path}
-                        title={movie.title}
-                        key={movie.id}
-                      />
-                    )
+                    <MovieCard
+                      year={movie.first_air_date}
+                      mediaType={movie.media_type}
+                      rating={movie.vote_average}
+                      imageUrl={movie.poster_path}
+                      title={movie.name}
+                      key={movie.id}
+                    />
                   );
                 })}
-              </Flex>
+              </Grid>
             </TabPanel>
           )}
         </TabPanels>

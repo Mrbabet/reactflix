@@ -87,9 +87,12 @@ const Register = () => {
   }, [userEmail, password, matchPassword]);
 
   const navigate = useNavigate();
+  const { signUp } = useAuth();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(userEmail, password);
+
+    signUp();
 
     const v1 = USER_EMAIL_REGEX.test(userEmail);
     const v2 = FULL_PASS_REGEX.test(password);

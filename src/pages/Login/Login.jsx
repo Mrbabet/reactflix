@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import AuthContext from "../../context/AuthProvider";
+import { useState, useEffect } from "react";
+
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
@@ -12,8 +12,6 @@ import {
   InputRightElement,
   Heading,
   Text,
-  useToast,
-  Image,
   Flex,
   Icon,
   Box,
@@ -23,6 +21,7 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const [userEmail, setUserEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,6 +34,7 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    await signIn(userEmail, password);
 
     try {
       setUserEmail("");

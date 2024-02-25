@@ -1,7 +1,5 @@
 import { Heading, Box, Icon, Image } from "@chakra-ui/react";
 import { IconMovies, IconTv } from "../../config/customIcons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBookmark } from "@fortawesome/free-solid-svg-icons";
 import { Link as ChakraLink } from "react-router-dom";
 
 const baseUrlForImages = "https://image.tmdb.org/t/p/w220_and_h330_face";

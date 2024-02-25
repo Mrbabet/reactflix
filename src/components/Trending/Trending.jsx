@@ -34,6 +34,7 @@ const Trending = () => {
             },
           }
         );
+
         setData(response.data.results);
         setLoading(false);
       } catch (error) {
@@ -69,18 +70,15 @@ const Trending = () => {
               >
                 {data.map((movie) => {
                   return (
-                    movie.release_date &&
-                    movie.title && (
-                      <MovieCard
-                        id={movie.id}
-                        year={movie.release_date}
-                        mediaType={movie.media_type}
-                        rating={movie.vote_average}
-                        imageUrl={movie.poster_path}
-                        title={movie.title}
-                        key={movie.id}
-                      />
-                    )
+                    <MovieCard
+                      id={movie.id}
+                      year={movie.release_date || movie.first_air_date}
+                      mediaType={movie.media_type}
+                      rating={movie.vote_average}
+                      imageUrl={movie.poster_path}
+                      title={movie.title || movie.name}
+                      key={movie.id}
+                    />
                   );
                 })}
               </Grid>
@@ -96,18 +94,15 @@ const Trending = () => {
               >
                 {data.map((movie) => {
                   return (
-                    movie.release_date &&
-                    movie.title && (
-                      <MovieCard
-                        id={movie.id}
-                        year={movie.release_date}
-                        mediaType={movie.media_type}
-                        rating={movie.vote_average}
-                        imageUrl={movie.poster_path}
-                        title={movie.title}
-                        key={movie.id}
-                      />
-                    )
+                    <MovieCard
+                      id={movie.id}
+                      year={movie.release_date || movie.first_air_date}
+                      mediaType={movie.media_type}
+                      rating={movie.vote_average}
+                      imageUrl={movie.poster_path}
+                      title={movie.title || movie.name}
+                      key={movie.id}
+                    />
                   );
                 })}
               </Grid>
