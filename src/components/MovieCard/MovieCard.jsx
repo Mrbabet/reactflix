@@ -4,7 +4,7 @@ import { Link as ChakraLink } from "react-router-dom";
 
 const baseUrlForImages = "https://image.tmdb.org/t/p/w220_and_h330_face";
 
-const MovieCard = ({ title, imageUrl, year, rating, mediaType, id }) => {
+const MovieCard = ({ title, imageUrl, year, mediaType, id }) => {
   return (
     <>
       <ChakraLink to={`movie/${id}`}>

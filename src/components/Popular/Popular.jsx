@@ -14,11 +14,12 @@ import {
 
 import axios from "axios";
 
-const FreeToWatch = () => {
+const Popular = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedTab, setSelectedTab] = useState("movie");
+  const [monetizationType, setMonetizationType] = useState("flatrate");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,7 +33,7 @@ const FreeToWatch = () => {
               page: "1",
               sort_by: "popularity.desc",
               watch_region: "PL",
-              with_watch_monetization_types: "free",
+              with_watch_monetization_types: monetizationType,
             },
             headers: {
               accept: "application/json",
@@ -43,13 +44,34 @@ const FreeToWatch = () => {
 
         setData(response.data.results);
         setLoading(false);
-      } catch (error) {}
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
     fetchData();
-  }, [selectedTab]);
+  }, [selectedTab, monetizationType]);
 
   const handleTabChange = (index) => {
-    setSelectedTab(index === 0 ? "movie" : "tv");
+    let selectedCategory;
+    let monetizationType;
+    switch (index) {
+      case 0:
+        selectedCategory = "movie";
+        monetizationType = "flatrate";
+        break;
+      case 1:
+        selectedCategory = "tv";
+        break;
+      case 2:
+        selectedCategory = "movie";
+        monetizationType = "rent";
+        break;
+      default:
+        selectedCategory = "movie";
+        break;
+    }
+    setSelectedTab(selectedCategory);
+    setMonetizationType(monetizationType);
   };
 
   return (
@@ -58,8 +80,9 @@ const FreeToWatch = () => {
 
       <Tabs onChange={handleTabChange}>
         <TabList>
-          <Tab>Movies</Tab>
+          <Tab>Streaming</Tab>
           <Tab>Tv</Tab>
+          <Tab>For Rent</Tab>
         </TabList>
         {loading && (
           <Spinner size="xl" thickness="4px" color="teal.500" margin="auto" />
@@ -111,10 +134,33 @@ const FreeToWatch = () => {
               </Grid>
             </TabPanel>
           )}
+          {!loading && !error && (
+            <TabPanel>
+              <Grid
+                templateColumns="repeat(20, 220px)"
+                overflowX={"scroll"}
+                gap={"16px"}
+                pb={"24px"}
+              >
+                {data.map((movie) => {
+                  return (
+                    <MovieCard
+                      year={movie.first_air_date}
+                      mediaType={movie.media_type}
+                      rating={movie.vote_average}
+                      imageUrl={movie.poster_path}
+                      title={movie.name}
+                      key={movie.id}
+                    />
+                  );
+                })}
+              </Grid>
+            </TabPanel>
+          )}
         </TabPanels>
       </Tabs>
     </>
   );
 };
 
-export default FreeToWatch;
+export default Popular;

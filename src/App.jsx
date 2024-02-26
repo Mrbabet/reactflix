@@ -24,14 +24,13 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home />} />
-          {/* Protected Routes */}
-          <Route element={<RequireAuth />}>
-            <Route path="/movie" element={<Movies />} />
-            <Route path="/movie/:movieId" element={<MoviesDetails />} />
+          <Route path="/movie" element={<Movies />} />
+          <Route path="/movie/:movieId" element={<MoviesDetails />} />
 
-            <Route path="/bookmarked" element={<Bookmarked />} />
-            <Route path="/tv-series" element={<TVSeries />} />
-          </Route>
+          <Route path="/bookmarked" element={<Bookmarked />} />
+          <Route path="/tv-series" element={<TVSeries />} />
+          {/* Protected Routes */}
+          <Route element={<RequireAuth />}></Route>
         </Route>
         {/* 404 */}
         <Route path="*" element={<NotFound />} />
