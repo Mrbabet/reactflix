@@ -30,7 +30,7 @@ const FreeToWatch = () => {
             params: {
               language: "en-US",
               page: "1",
-              sort_by: "popularity.desc",
+
               watch_region: "PL",
               with_watch_monetization_types: "free",
             },
