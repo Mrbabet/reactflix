@@ -2,7 +2,7 @@ import React from "react";
 
 import { useState, useEffect } from "react";
 
-import MovieCard from "../MovieCard/MovieCard";
+import TrailerCard from '../TrailerCard/TrailerCard'
 import {
   Grid,
   Tabs,
@@ -25,9 +25,9 @@ const Trailers = () => {
   const [monetizationType, setMonetizationType] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchLatestMovies = async () => {
       try {
-        setLoading(true);
+       
         const response = await axios.get(
           `https://api.themoviedb.org/3/discover/${selectedTab}`,
           {
@@ -45,17 +45,58 @@ const Trailers = () => {
             },
           }
         );
-
-        setData(response.data.results);
-        setLoading(false);
+          const data = response.data.results
+          setData(data)
+          return data.map(movie => movie.id)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-    fetchData();
+    fetchLatestMovies()
+    const fetchTrailersMovies = async(movieID)=>{
+      const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieID}/videos`,{
+        params: {
+          language: "en-US",
+        },
+        headers: {
+          accept: "application/json",
+          Authorization: `Bearer ${import.meta.env.VITE_ACCESS_TOKEN_AUTH}`,
+        },
+      });
+
+      const data =response.data.results
+      
+      return data.filter(video => video.type === 'Trailer' && video.official ===true)
+
+
+    }
+    
+    async function fetchNewestVideosTrailers() {
+      try {
+        setLoading(true)
+          const latestMovieIds = await fetchLatestMovies();
+       
+          if (latestMovieIds.length === 0) {
+              console.log('No latest movies found');
+              return;
+          }
+          
+          for (const movieId of latestMovieIds) {
+            
+            const trailers = await fetchTrailersMovies(movieId)
+        }
+        
+        setLoading(false)
+         
+      } catch (error) {
+          console.error(error);
+      }
+     
+  }
+  fetchNewestVideosTrailers()
   }, [selectedTab, monetizationType]);
 
-  console.log(data);
+  console.log(data)
 
   const handleTabChange = (index) => {
     let selectedCategory;
@@ -102,18 +143,15 @@ const Trailers = () => {
           {!loading && !error && (
             <TabPanel className="test">
               <Grid
-                templateColumns="repeat(20, 220px)"
+                templateColumns="repeat(20, 300px)"
                 overflowX={"scroll"}
                 gap={"16px"}
               >
                 {data.map((movie) => {
                   return (
-                    <MovieCard
+                    <TrailerCard
                       id={movie.id}
-                      year={movie.release_date}
-                      mediaType={movie.media_type}
-                      rating={movie.vote_average}
-                      imageUrl={movie.poster_path}
+                      imageUrl={movie.backdrop_path}
                       title={movie.title || movie.name}
                       key={movie.id}
                     />
@@ -125,19 +163,16 @@ const Trailers = () => {
           {!loading && !error && (
             <TabPanel>
               <Grid
-                templateColumns="repeat(20, 220px)"
+                templateColumns="repeat(20, 300px)"
                 overflowX={"scroll"}
                 gap={"16px"}
                 pb={"24px"}
               >
                 {data.map((movie) => {
                   return (
-                    <MovieCard
-                      year={movie.first_air_date}
-                      mediaType={movie.media_type}
-                      rating={movie.vote_average}
-                      imageUrl={movie.poster_path}
-                      title={movie.name}
+                    <TrailerCard
+                      imageUrl={movie.backdrop_path}
+                      title={movie.title || movie.name}
                       key={movie.id}
                     />
                   );
@@ -148,19 +183,16 @@ const Trailers = () => {
           {!loading && !error && (
             <TabPanel>
               <Grid
-                templateColumns="repeat(20, 220px)"
+                templateColumns="repeat(20, 300px)"
                 overflowX={"scroll"}
                 gap={"16px"}
                 pb={"24px"}
               >
                 {data.map((movie) => {
                   return (
-                    <MovieCard
-                      year={movie.first_air_date}
-                      mediaType={movie.media_type}
-                      rating={movie.vote_average}
-                      imageUrl={movie.poster_path}
-                      title={movie.name}
+                    <TrailerCard
+                       imageUrl={movie.backdrop_path}
+                       title={movie.title || movie.name}
                       key={movie.id}
                     />
                   );
@@ -171,19 +203,16 @@ const Trailers = () => {
           {!loading && !error && (
             <TabPanel>
               <Grid
-                templateColumns="repeat(20, 220px)"
+                templateColumns="repeat(20, 300px)"
                 overflowX={"scroll"}
                 gap={"16px"}
                 pb={"24px"}
               >
                 {data.map((movie) => {
                   return (
-                    <MovieCard
-                      year={movie.first_air_date}
-                      mediaType={movie.media_type}
-                      rating={movie.vote_average}
-                      imageUrl={movie.poster_path}
-                      title={movie.name}
+                    <TrailerCard
+                       imageUrl={movie.backdrop_path}
+                       title={movie.title || movie.name}
                       key={movie.id}
                     />
                   );
