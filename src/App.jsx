@@ -6,6 +6,7 @@ import Layout from "./components/Layout/Layout";
 import Welcome from "./pages/Welcome/Welcome";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import MoviesDetails from "./pages/MoviesDetails/MoviesDetails";
+import TvDetails from "./pages/TvDetails/TvDetails";
 
 const Home = React.lazy(() => import("./pages/Home/Home"));
 const Movies = React.lazy(() => import("./pages/Movies/Movies"));
@@ -28,7 +29,8 @@ function App() {
           <Route path="/movie/:movieId" element={<MoviesDetails />} />
 
           <Route path="/bookmarked" element={<Bookmarked />} />
-          <Route path="/tv-series" element={<TVSeries />} />
+          <Route path="/tv" element={<TVSeries />} />
+          <Route path="/tv/:tvId" element={<TvDetails />} />
           {/* Protected Routes */}
           <Route element={<RequireAuth />}></Route>
         </Route>

@@ -18,19 +18,19 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 
-const MoviesDetails = () => {
+const TvDetails = () => {
   const url = "https://media.themoviedb.org/t/p/w1920_and_h800_multi_faces";
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { movieId } = useParams();
+  const { tvId } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/${movieId}`,
+          `https://api.themoviedb.org/3/tv/${tvId}`,
           {
             headers: {
               accept: "application/json",
@@ -46,7 +46,8 @@ const MoviesDetails = () => {
       }
     };
     fetchData();
-  }, [movieId]);
+  }, [tvId]);
+
   console.log(data)
   return (
     <>
@@ -73,7 +74,7 @@ const MoviesDetails = () => {
       
       <Box h={"100%"} p={"30px 40px"}>
         <Heading fontSize={"16px"} textAlign={"center"} pb={"16px"}>
-          {data.title} ({data.release_date?.slice(0, 4)})
+          {data.name} ({data.first_air_date?.slice(0, 4)})
         </Heading>
         <Flex
           alignItems={"center"}
@@ -96,8 +97,7 @@ const MoviesDetails = () => {
         </Flex>
         <Flex justifyContent={"center"} flexWrap={"wrap"} gap={"8px"}>
           {/* <Box>{data.certification}</Box> */}
-          <Box>{data.release_date}</Box>
-          <Box>{(data.runtime / 60).toFixed(2)} h</Box>
+          <Box>{data.first_air_date}</Box>
           {data.genres?.map((genre) => (
             <Box key={genre.id}>{genre.name}</Box>
           ))}
@@ -117,11 +117,13 @@ const MoviesDetails = () => {
           </Heading>
           <Text>{data.overview}</Text>
         </Box>
-        <List>
-          <ListItem>
-            <a href=""></a>
-            <Text></Text>
-          </ListItem>
+        <List display={'flex'} gap={'8px'}>
+        {data.created_by?.map(creator =>
+        <ListItem key={creator.id}>
+           <a href="">{creator.name}</a>
+           <Text></Text>
+         </ListItem>)}
+          
         </List>
       </Box>
       </>} 
@@ -143,4 +145,4 @@ const MoviesDetails = () => {
   );
 };
 
-export default MoviesDetails;
+export default TvDetails;

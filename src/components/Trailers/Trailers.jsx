@@ -96,7 +96,7 @@ const Trailers = () => {
   fetchNewestVideosTrailers()
   }, [selectedTab, monetizationType]);
 
-  console.log(data)
+  
 
   const handleTabChange = (index) => {
     let selectedCategory;

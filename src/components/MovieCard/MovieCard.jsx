@@ -7,7 +7,8 @@ const baseUrlForImages = "https://image.tmdb.org/t/p/w220_and_h330_face";
 const MovieCard = ({ title, imageUrl, year, mediaType, id }) => {
   return (
     <>
-      <ChakraLink to={`movie/${id}`}>
+    
+    <ChakraLink to={mediaType === "movie" ? `movie/${id}` : `tv/${id}`}>
         <Box>
           <Box>
             <Image

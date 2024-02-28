@@ -44,6 +44,8 @@ const Trending = () => {
     fetchData();
   }, [selectedTab]);
 
+  console.log(data)
+
   const handleTabChange = (index) => {
     setSelectedTab(index === 0 ? "day" : "week");
   };
